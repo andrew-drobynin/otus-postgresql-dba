@@ -18,10 +18,28 @@ FROM orders_test;
 ```
 
 ###### Подключение и выполнение запросов в контейнере с psql
-![](images/psql.png)
+![](images/psql-1.png)
 
 ###### Подключение с хоста через pgAdmin
 ![](images/pgAdmin-1.png)
 
 ###### Выполнение запроса с хоста через pgAdmin
 ![](images/pgAdmin-2.png)
+
+###### Остановка и удаление контейнера с сервером
+```sh
+docker ps -a
+
+docker stop postgres
+
+docker rm postgres
+```
+![](images/docker-stop-rm.png)
+
+###### Повторное подключение и запроса запросов в контейнере с psql
+Строки в таблице orders_test сохранились
+
+![](images/psql-2.png)
+
+###### Повторное выполнение запроса с хоста через pgAdmin
+![](images/pgAdmin-3.png)
