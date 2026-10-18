@@ -18,7 +18,7 @@ docker exec -it psql pgbench -T 60 -c 10 -j 4 -h postgres -U postgres pgbench_te
 ```
 
 ##### 4
-tps = 1338.020913
+tps = 1338.020913\
 ![](images/scale/10/pgbench-1.png)
 
 ##### 5
@@ -55,13 +55,23 @@ random_page_cost = 1.1
 effective_io_concurrency = 200
 maintenance_io_concurrency = 200
 ```
+###### Настройка дополнительных параметров
+```conf
+synchronous_commit = off
+fsync = off
+full_page_writes = off
+```
 
 ##### 6
-tps = 1422.205996
-![](images/scale/10/pgbench-2.png)
+tps = 1422.205996\
+![](images/scale/10/pgbench-2.png)\
+Плюс применение параметров synchronous_commit, fsync и full_page_writes:\
+tps = 4228.660864\
+![](images/scale/10/pgbench-3.png)
 
 ##### 7
-Похоже, изменение параметров не сильно заметно на таком объёме данных.\
+На таком объёме данных больше всего заметно применение synchronous_commit, fsync и full_page_writes.\
+Остальные параметры почти не заметно.\
 Сравню при scale = 100
 ###### Инициализация тестовой БД pgbench_test
 ```sh
@@ -69,17 +79,23 @@ docker exec -it psql pgbench -i -s 100 -h postgres -U postgres pgbench_test
 ```
 ![](images/scale/100/pgbench-i.png)
 ###### Baseline-прогон pgbench (60 секунд, 10 клиентов, 4 потока)
-tps = 1687.447407
+tps = 1687.447407\
 ![](images/scale/100/pgbench-1.png)
 ###### Прогон pgbench (60 секунд, 10 клиентов, 4 потока) после применения параметров из п.5
-tps = 1857.252489
+tps = 1857.25248\
 ![](images/scale/100/pgbench-2.png)
-Как видно, при scale 100 изменения параметров более заметны.
+###### Прогон pgbench (60 секунд, 10 клиентов, 4 потока) после применения параметров из п.5 (+ synchronous_commit, fsync и full_page_writes)
+tps = 5382.052713\
+![](images/scale/100/pgbench-3.png)
+Как видно, при scale 100 применение параметров более заметны.\
+И ещё больше выделяются параметры synchronous_commit, fsync и full_page_writes.
 
 ##### 8
-Думаю, больше всего повлияли параметры:
-1. shared_buffers (выставлен для работы с большим объёмом ОЗУ)
-2. random_page_cost / effective_io_concurrency / maintenance_io_concurrency (выставлены для работы с SSD)
+Больше всего повлияли параметры:
+1. synchronous_commit, fsync и full_page_writes (выставлены в самый небезопасный режим)\
+Я бы рискнул менять их в продуктивной БД только при наличии плана восстановления после сбоев питания или ОС.
+2. shared_buffers (выставлен для работы с большим объёмом ОЗУ)
+3. random_page_cost / effective_io_concurrency / maintenance_io_concurrency (выставлены для работы с SSD)
 
 Возможно, ещё work_mem, если в тестовых запросах есть DISTINCT, HASH JOIN или ORDER BY.\
 Сложно оценить вклад параметра min_wal_size без исследования max_wal_size и checkpoint_timeout.
@@ -95,3 +111,6 @@ tps = 1857.252489
 | random_page_cost           | 4.0   | 1.1   | Так советуют для SSD               |
 | effective_io_concurrency   | 16    | 200   | Так советуют для SSD               |
 | maintenance_io_concurrency | 16    | 200   | Так советуют для SSD               |
+| synchronous_commit         | on    | off   | Для эксперимента                   |
+| fsync                      | on    | off   | Для эксперимента                   |
+| full_page_writes           | on    | off   | Для эксперимента                   |
