@@ -1,0 +1,11 @@
+2026-11-05 20:06:21.510 UTC [4738] LOG:  process 4738 still waiting for ShareLock on transaction 769 after 200.239 ms
+2026-11-05 20:06:21.510 UTC [4738] DETAIL:  Process holding the lock: 4721. Wait queue: 4738.
+2026-11-05 20:06:21.510 UTC [4738] CONTEXT:  while updating tuple (0,1) in relation "test"
+2026-11-05 20:06:21.510 UTC [4738] STATEMENT:  UPDATE test
+	SET value = value || '-2'
+	WHERE id = 1;
+2026-11-05 20:06:37.640 UTC [4747] LOG:  process 4747 still waiting for ExclusiveLock on tuple (0,1) of relation 16384 of database 5 after 200.282 ms
+2026-11-05 20:06:37.640 UTC [4747] DETAIL:  Process holding the lock: 4738. Wait queue: 4747.
+2026-11-05 20:06:37.640 UTC [4747] STATEMENT:  UPDATE test
+	SET value = value || '-3'
+	WHERE id = 1;

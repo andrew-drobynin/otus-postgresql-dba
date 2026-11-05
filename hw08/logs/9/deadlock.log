@@ -1,0 +1,20 @@
+2026-11-05 22:49:12.511 UTC [44199] LOG:  process 44199 detected deadlock while waiting for ShareLock on transaction 822 after 200.071 ms
+2026-11-05 22:49:12.511 UTC [44199] DETAIL:  Process holding the lock: 44182. Wait queue: .
+2026-11-05 22:49:12.511 UTC [44199] CONTEXT:  while updating tuple (0,1) in relation "test"
+2026-11-05 22:49:12.511 UTC [44199] STATEMENT:  UPDATE test
+	SET value = 'test-1';
+2026-11-05 22:49:12.511 UTC [44199] ERROR:  deadlock detected
+2026-11-05 22:49:12.511 UTC [44199] DETAIL:  Process 44199 waits for ShareLock on transaction 822; blocked by process 44182.
+	Process 44182 waits for ShareLock on transaction 823; blocked by process 44199.
+	Process 44199: UPDATE test
+	SET value = 'test-1';
+	Process 44182: UPDATE test
+	SET value = 'test-1';
+2026-11-05 22:49:12.511 UTC [44199] HINT:  See server log for query details.
+2026-11-05 22:49:12.511 UTC [44199] CONTEXT:  while updating tuple (0,1) in relation "test"
+2026-11-05 22:49:12.511 UTC [44199] STATEMENT:  UPDATE test
+	SET value = 'test-1';
+2026-11-05 22:49:12.511 UTC [44182] LOG:  process 44182 acquired ShareLock on transaction 823 after 5741.651 ms
+2026-11-05 22:49:12.511 UTC [44182] CONTEXT:  while updating tuple (944,1) in relation "test"
+2026-11-05 22:49:12.511 UTC [44182] STATEMENT:  UPDATE test
+	SET value = 'test-1';

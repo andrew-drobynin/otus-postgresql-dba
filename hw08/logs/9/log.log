@@ -1,0 +1,9 @@
+2026-11-05 22:12:57.325 UTC [44199] LOG:  process 44199 still waiting for ShareLock on transaction 793 after 200.392 ms
+2026-11-05 22:12:57.325 UTC [44199] DETAIL:  Process holding the lock: 44182. Wait queue: 44199.
+2026-11-05 22:12:57.325 UTC [44199] CONTEXT:  while updating tuple (0,6) in relation "test"
+2026-11-05 22:12:57.325 UTC [44199] STATEMENT:  UPDATE test
+	SET value = 'test-1';
+2026-11-05 22:13:37.018 UTC [44199] LOG:  process 44199 acquired ShareLock on transaction 793 after 39893.476 ms
+2026-11-05 22:13:37.018 UTC [44199] CONTEXT:  while updating tuple (0,6) in relation "test"
+2026-11-05 22:13:37.018 UTC [44199] STATEMENT:  UPDATE test
+	SET value = 'test-1';

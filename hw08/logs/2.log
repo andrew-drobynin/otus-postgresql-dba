@@ -1,0 +1,6 @@
+2026-11-05 19:57:21.712 UTC [1138] LOG:  process 1138 still waiting for ShareLock on transaction 767 after 200.431 ms
+2026-11-05 19:57:21.712 UTC [1138] DETAIL:  Process holding the lock: 1081. Wait queue: 1138.
+2026-11-05 19:57:21.712 UTC [1138] CONTEXT:  while updating tuple (0,1) in relation "test"
+2026-11-05 19:57:21.712 UTC [1138] STATEMENT:  UPDATE test
+	SET value = value || '-2'
+	WHERE id = 1;

@@ -1,0 +1,5 @@
+2026-11-05 21:21:39.475 UTC [4747] LOG:  process 4747 acquired ShareLock on transaction 770 after 67960.736 ms
+2026-11-05 21:21:39.475 UTC [4747] CONTEXT:  while rechecking updated tuple (0,3) in relation "test"
+2026-11-05 21:21:39.475 UTC [4747] STATEMENT:  UPDATE test
+	SET value = value || '-3'
+	WHERE id = 1;
